@@ -88,11 +88,11 @@ function sendInfoMessage() {
         const embed = new EmbedBuilder()
             .setColor(0x0099FF)
             .setTitle('**Verification for Premium Resource Support**')
-            .setDescription('Hello!\n' +
+            .setDescription('**Hello!**\n' +
                 '\n' +
-                'If you have recently purchased one of my premium resources, you should go get verified in <#1032132656902705174> so you can receive direct support in tickets. I will not be helping anyone who is using a premium resource, but has not purchased it. The bot will take your PayPal transaction ID and verify it with my logs. Once that finishes, it will give you the <@1032139994485227632> role which I will check while providing support. Thank you!\n' +
+                'If you have recently purchased one of my premium resources, you should go get verified in <#1032132656902705174> so you can receive direct support in tickets. I will not be helping anyone who is using a premium resource, but has not purchased it. The bot will take your **PayPal transaction ID** and verify it with my logs. Once that finishes, it will give you the <@&1032139994485227632> role which I will check while providing support. Thank you!\n' +
                 '\n' +
-                'tl;dr: go in <#1032132656902705174> if u buy premium resource so u can get support from me :)');
+                '**tl;dr:** go in <#1032132656902705174> if u buy premium resource so u can get support from me :)');
 
         c.send({embeds: [embed]}).then(msg => {
             config["info-message-id"] = msg.id;
