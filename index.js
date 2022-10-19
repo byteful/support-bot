@@ -9,8 +9,14 @@ const config = JSON.parse(fs.readFileSync("config.json", {encoding: "UTF-8"}));
 bot.on(Events.ClientReady, async () => {
     let c = await bot.channels.fetch(config["verify-channel-id"])
     let msgId = config["verify-message-id"];
-    if(!msgId || !(await doesMessageExist(c, msgId))) {
+    if (!msgId || !(await doesMessageExist(c, msgId))) {
         sendVerifyMessage()
+    }
+
+    msgId = config["info-message-id"]
+    c = await bot.channels.fetch(config["info-channel-id"])
+    if (!msgId || !(await doesMessageExist(c, msgId))) {
+        sendInfoMessage()
     }
 });
 
@@ -70,8 +76,26 @@ function sendVerifyMessage() {
             .setTitle('**Verification for Premium Resource Support**')
             .setDescription('Hello! Here you can verify yourself that you have purchased a certain resource so you may receive support. If you make a ticket, and you have not verified, I will ask you to do so before I help you. You will need to type the PayPal transaction ID.');
 
-        c.send({ ephemeral: true, embeds: [embed], components: [row] }).then(msg => {
+        c.send({embeds: [embed], components: [row]}).then(msg => {
             config["verify-message-id"] = msg.id;
+            saveConfig()
+        });
+    });
+}
+
+function sendInfoMessage() {
+    bot.channels.fetch(config["info-channel-id"]).then(c => {
+        const embed = new EmbedBuilder()
+            .setColor(0x0099FF)
+            .setTitle('**Verification for Premium Resource Support**')
+            .setDescription('Hello!\n' +
+                '\n' +
+                'If you have recently purchased one of my premium resources, you should go get verified in <#1032132656902705174> so you can receive direct support in tickets. I will not be helping anyone who is using a premium resource, but has not purchased it. The bot will take your PayPal transaction ID and verify it with my logs. Once that finishes, it will give you the <@1032139994485227632> role which I will check while providing support. Thank you!\n' +
+                '\n' +
+                'tl;dr: go in <#1032132656902705174> if u buy premium resource so u can get support from me :)');
+
+        c.send({embeds: [embed]}).then(msg => {
+            config["info-message-id"] = msg.id;
             saveConfig()
         });
     });
